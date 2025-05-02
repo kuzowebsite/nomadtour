@@ -1,0 +1,34 @@
+[build]
+  command = "npm run build"
+  publish = ".next"
+
+# Rewrite rule for Next.js API routes
+[[redirects]]
+  from = "/api/*"
+  to = "/.netlify/functions/next_api/:splat"
+  status = 200
+
+# Rewrite rule for Next.js pages
+[[redirects]]
+  from = "/*"
+  to = "/.netlify/functions/next_server/:splat"
+  status = 200
+
+# Fallback for static files
+[[redirects]]
+  from = "/_next/static/*"
+  to = "/_next/static/:splat"
+  status = 200
+
+# Handle 404 errors
+[[redirects]]
+  from = "/*"
+  to = "/404"
+  status = 404
+
+[functions]
+  directory = "netlify/functions"
+  node_bundler = "esbuild"
+
+[build.environment]
+  NEXT_USE_NETLIFY_EDGE = "true"
