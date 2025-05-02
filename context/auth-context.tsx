@@ -68,7 +68,13 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   const [user, setUser] = useState<User | null>(null)
   const [userData, setUserData] = useState<UserData | null>(null)
   const [loading, setLoading] = useState(true)
-  const socialLoginAvailable = isSocialLoginAvailable()
+  // Use useState instead of direct function call to avoid SSR issues
+  const [socialLoginAvailable, setSocialLoginAvailable] = useState(false)
+
+  // Check social login availability on client-side only
+  useEffect(() => {
+    setSocialLoginAvailable(isSocialLoginAvailable())
+  }, [])
 
   const fetchUserData = async (user: User) => {
     const result = await getUserData(user.uid)
