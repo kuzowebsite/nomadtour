@@ -27,11 +27,15 @@ googleProvider.addScope("profile")
 googleProvider.addScope("email")
 facebookProvider.addScope("email")
 
+// Check if we're in a browser environment
+const isBrowser = typeof window !== "undefined"
+
 // Check if we're in development mode
-const isDevelopment =
-  process.env.NODE_ENV === "development" ||
-  window.location.hostname === "localhost" ||
-  window.location.hostname.includes("vercel.app")
+const isDevelopment = isBrowser
+  ? process.env.NODE_ENV === "development" ||
+    window.location.hostname === "localhost" ||
+    window.location.hostname.includes("vercel.app")
+  : process.env.NODE_ENV === "development"
 
 // List of known authorized domains
 const AUTHORIZED_DOMAINS = [
@@ -42,6 +46,8 @@ const AUTHORIZED_DOMAINS = [
 
 // Check if current domain is likely authorized
 const isLikelyAuthorized = () => {
+  if (!isBrowser) return true // Default to true on server-side
+
   const hostname = window.location.hostname
   return AUTHORIZED_DOMAINS.some((domain) => hostname === domain || hostname.endsWith(`.${domain}`))
 }
@@ -355,5 +361,8 @@ export const getCurrentUser = () => {
 
 // Function to check if social login is available in current environment
 export const isSocialLoginAvailable = () => {
+  // Default to false on server-side to be safe
+  if (!isBrowser) return false
+
   return isLikelyAuthorized() || !isDevelopment
 }
