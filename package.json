@@ -9,6 +9,9 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@netlify/next": "^1.4.9",
+    "@netlify/plugin-nextjs": "^4.41.3",
+    "qrcode.react": "^3.1.0",
     "@hookform/resolvers": "^3.9.1",
     "@radix-ui/react-accordion": "1.2.2",
     "@radix-ui/react-alert-dialog": "1.1.4",
@@ -59,7 +62,6 @@
     "vaul": "^0.9.6",
     "zod": "^3.24.1",
     "firebase": "latest",
-    "qrcode.react": "latest"
   },
   "devDependencies": {
     "@types/node": "^22",
